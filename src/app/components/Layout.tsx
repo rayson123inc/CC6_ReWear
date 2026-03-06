@@ -17,6 +17,7 @@ export function Layout() {
     { name: "Leaderboard", path: "/leaderboard" },
     { name: "Achievements", path: "/achievements" },
     { name: "Redeem", path: "/redeem" },
+    { name: "Days Challenge", path: "/days-challenge" },
     { name: "How It Works", path: "/how-it-works" },
   ];
 

@@ -8,6 +8,7 @@ import { Leaderboard } from "./pages/Leaderboard";
 import { Achievements } from "./pages/Achievements";
 import { Redeem } from "./pages/Redeem";
 import { HowItWorks } from "./pages/HowItWorks";
+import { DaysChallenge } from "./pages/DaysChallenge";
 
 export const router = createBrowserRouter([
   {
@@ -28,6 +29,7 @@ export const router = createBrowserRouter([
           { path: "achievements", Component: Achievements },
           { path: "redeem", Component: Redeem },
           { path: "how-it-works", Component: HowItWorks },
+          { path: "days-challenge", Component: DaysChallenge },
         ],
       },
     ],
