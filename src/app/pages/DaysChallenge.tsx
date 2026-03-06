@@ -9,52 +9,234 @@ interface Choice {
 }
 
 interface EventCard {
+  category:
+    | "Design"
+    | "Production"
+    | "Distribution"
+    | "Responsible Consumption"
+    | "Repurposing Clothes"
+    | "Waste Recycling";
   title: string;
   prompt: string;
   choices: Choice[];
 }
 
 const STARTING_STATS: Record<StatKey, number> = {
-  social: 50,
-  environment: 50,
-  economy: 50,
+  social: 45,
+  environment: 45,
+  economy: 45,
 };
+const PASSIVE_DRAIN = 2;
 
 const EVENTS: EventCard[] = [
   {
-    title: "Weekend Invite",
-    prompt: "Your friends want to go mall shopping today. What do you do?",
+    category: "Design",
+    title: "Fast-Fashion Flash Sale",
+    prompt: "A huge flash sale ends tonight, and everyone in your class is buying.",
     choices: [
-      { label: "Go shopping with friends", impact: { social: 10, environment: -15, economy: -10 } },
-      { label: "Suggest a thrift trip instead", impact: { social: 6, environment: 10, economy: 5 } },
-      { label: "Stay home and mend your clothes", impact: { social: -5, environment: 12, economy: 8 } },
+      { label: "Buy 2 trendy items", impact: { social: 11, environment: -16, economy: -14 } },
+      { label: "Skip the sale and thrift later", impact: { social: -5, environment: 10, economy: 4 } },
+      { label: "Repair and restyle old pieces", impact: { social: -8, environment: 12, economy: 8 } },
     ],
   },
   {
-    title: "Closet Refresh",
-    prompt: "You need a new outfit for an event.",
+    category: "Production",
+    title: "Work Dress Code Change",
+    prompt: "Your office suddenly requires formal wear for a presentation week.",
     choices: [
-      { label: "Buy a brand-new outfit", impact: { social: 6, environment: -12, economy: -12 } },
-      { label: "Borrow from a friend", impact: { social: 8, environment: 10, economy: 6 } },
-      { label: "Re-style something you already own", impact: { social: 2, environment: 8, economy: 8 } },
+      { label: "Buy new formal pieces", impact: { social: 8, environment: -14, economy: -15 } },
+      { label: "Rent one outfit and repeat", impact: { social: 3, environment: 8, economy: -5 } },
+      { label: "Borrow and tailor lightly", impact: { social: 6, environment: 9, economy: 2 } },
     ],
   },
   {
-    title: "Laundry Day",
-    prompt: "Your laundry basket is full.",
+    category: "Distribution",
+    title: "Rainy Week Laundry",
+    prompt: "Nothing dries fast this week and you are running out of clean clothes.",
     choices: [
-      { label: "Hot wash + tumble dry", impact: { social: 0, environment: -10, economy: -6 } },
-      { label: "Cold wash + line dry", impact: { social: 0, environment: 10, economy: 6 } },
-      { label: "Wash only essentials", impact: { social: -2, environment: 8, economy: 8 } },
+      { label: "Use dryer every night", impact: { social: 3, environment: -12, economy: -9 } },
+      { label: "Cold wash + indoor racks", impact: { social: -2, environment: 7, economy: 3 } },
+      { label: "Repeat outfits strategically", impact: { social: -6, environment: 10, economy: 6 } },
     ],
   },
   {
-    title: "Community Event",
-    prompt: "Your neighborhood is hosting a swap event.",
+    category: "Responsible Consumption",
+    title: "Festival Outfit Pressure",
+    prompt: "You are invited to a 3-day festival where everyone posts new looks daily.",
     choices: [
-      { label: "Host a swap table", impact: { social: 12, environment: 10, economy: 5 } },
-      { label: "Attend as a guest", impact: { social: 7, environment: 6, economy: 3 } },
-      { label: "Skip and shop online", impact: { social: -3, environment: -10, economy: -8 } },
+      { label: "Buy 3 new outfits", impact: { social: 12, environment: -18, economy: -16 } },
+      { label: "Mix-and-match old pieces", impact: { social: -3, environment: 8, economy: 5 } },
+      { label: "Swap looks with friends", impact: { social: 8, environment: 9, economy: 4 } },
+    ],
+  },
+  {
+    category: "Repurposing Clothes",
+    title: "Broken Zipper",
+    prompt: "Your go-to jacket zipper breaks before a commute-heavy week.",
+    choices: [
+      { label: "Replace jacket entirely", impact: { social: 2, environment: -12, economy: -12 } },
+      { label: "Pay for quick repair service", impact: { social: 1, environment: 8, economy: -6 } },
+      { label: "DIY repair tonight", impact: { social: -4, environment: 10, economy: 6 } },
+    ],
+  },
+  {
+    category: "Waste Recycling",
+    title: "Family Gift Day",
+    prompt: "Relatives expect new clothes for a big family photo tradition.",
+    choices: [
+      { label: "Buy matching sets for everyone", impact: { social: 10, environment: -15, economy: -15 } },
+      { label: "Coordinate existing wardrobe colors", impact: { social: 2, environment: 8, economy: 8 } },
+      { label: "Rent coordinated outfits", impact: { social: 6, environment: 6, economy: -4 } },
+    ],
+  },
+  {
+    category: "Design",
+    title: "Influencer Trend Drop",
+    prompt: "A trend you love might disappear next week.",
+    choices: [
+      { label: "Impulse buy now", impact: { social: 9, environment: -13, economy: -12 } },
+      { label: "Wait 48 hours to decide", impact: { social: -2, environment: 5, economy: 6 } },
+      { label: "Create trend using existing items", impact: { social: 4, environment: 8, economy: 7 } },
+    ],
+  },
+  {
+    category: "Production",
+    title: "Commute Crisis",
+    prompt: "Public transport delays add stress and you need durable shoes fast.",
+    choices: [
+      { label: "Buy cheap fast-fashion shoes", impact: { social: 4, environment: -12, economy: -10 } },
+      { label: "Repair old soles locally", impact: { social: -1, environment: 9, economy: -4 } },
+      { label: "Borrow backup shoes", impact: { social: 5, environment: 7, economy: 6 } },
+    ],
+  },
+  {
+    category: "Waste Recycling",
+    title: "Office Charity Drive",
+    prompt: "Coworkers are donating old clothes, but some pieces are still usable.",
+    choices: [
+      { label: "Throw everything out quickly", impact: { social: 0, environment: -11, economy: 0 } },
+      { label: "Sort for reuse and donation", impact: { social: 3, environment: 9, economy: 2 } },
+      { label: "Host a mini office swap first", impact: { social: 9, environment: 7, economy: 3 } },
+    ],
+  },
+  {
+    category: "Distribution",
+    title: "Travel Packing Limit",
+    prompt: "Airline baggage is strict and weather forecast keeps changing.",
+    choices: [
+      { label: "Buy destination outfits", impact: { social: 5, environment: -13, economy: -13 } },
+      { label: "Pack capsule wardrobe only", impact: { social: -3, environment: 10, economy: 8 } },
+      { label: "Share luggage with a friend", impact: { social: 6, environment: 6, economy: 4 } },
+    ],
+  },
+  {
+    category: "Responsible Consumption",
+    title: "Wedding Season",
+    prompt: "You have 3 weddings this month with overlapping guests.",
+    choices: [
+      { label: "Buy a fresh look for each event", impact: { social: 11, environment: -17, economy: -17 } },
+      { label: "Rent one outfit and style differently", impact: { social: 4, environment: 8, economy: -5 } },
+      { label: "Rewear and accessorize creatively", impact: { social: -2, environment: 11, economy: 8 } },
+    ],
+  },
+  {
+    category: "Design",
+    title: "Heatwave Week",
+    prompt: "Your current clothes feel too warm during an unexpected heatwave.",
+    choices: [
+      { label: "Buy fast lightweight clothes", impact: { social: 3, environment: -12, economy: -11 } },
+      { label: "Alter existing clothes", impact: { social: -3, environment: 8, economy: 5 } },
+      { label: "Borrow season-appropriate items", impact: { social: 5, environment: 7, economy: 5 } },
+    ],
+  },
+  {
+    category: "Production",
+    title: "Team Photoshoot",
+    prompt: "Your team wants coordinated outfits for social media branding.",
+    choices: [
+      { label: "Order matching branded tees", impact: { social: 8, environment: -11, economy: -9 } },
+      { label: "Use existing color palette", impact: { social: 3, environment: 6, economy: 4 } },
+      { label: "Thrift similar pieces together", impact: { social: 7, environment: 8, economy: 3 } },
+    ],
+  },
+  {
+    category: "Responsible Consumption",
+    title: "Closet Overflow",
+    prompt: "You can barely close your wardrobe, but you still feel you have nothing to wear.",
+    choices: [
+      { label: "Buy organizers and keep everything", impact: { social: 1, environment: -8, economy: -8 } },
+      { label: "Do a strict 30-item capsule reset", impact: { social: -5, environment: 10, economy: 7 } },
+      { label: "Swap excess items with friends", impact: { social: 7, environment: 8, economy: 5 } },
+    ],
+  },
+  {
+    category: "Distribution",
+    title: "Last-Minute Interview",
+    prompt: "You need a polished outfit by tomorrow morning.",
+    choices: [
+      { label: "Buy same-day express fashion", impact: { social: 6, environment: -13, economy: -14 } },
+      { label: "Borrow + steam tonight", impact: { social: 5, environment: 8, economy: 4 } },
+      { label: "Rework existing formal wear", impact: { social: 2, environment: 7, economy: 6 } },
+    ],
+  },
+  {
+    category: "Production",
+    title: "Gymwear Breakdown",
+    prompt: "Your workout clothes are stretched and tearing.",
+    choices: [
+      { label: "Buy cheap multi-pack", impact: { social: 2, environment: -12, economy: -10 } },
+      { label: "Buy one durable piece only", impact: { social: 1, environment: -3, economy: -5 } },
+      { label: "Repair + rotate old sets", impact: { social: -4, environment: 9, economy: 7 } },
+    ],
+  },
+  {
+    category: "Responsible Consumption",
+    title: "Friend's Birthday Theme",
+    prompt: "The party theme requires an outfit color you never wear.",
+    choices: [
+      { label: "Buy one-time-use outfit", impact: { social: 9, environment: -14, economy: -11 } },
+      { label: "Borrow from a friend", impact: { social: 7, environment: 8, economy: 5 } },
+      { label: "DIY dye existing piece", impact: { social: 3, environment: 4, economy: 2 } },
+    ],
+  },
+  {
+    category: "Repurposing Clothes",
+    title: "Repair Queue",
+    prompt: "Three clothing items need mending and your weekend is already full.",
+    choices: [
+      { label: "Replace all three quickly", impact: { social: 0, environment: -16, economy: -16 } },
+      { label: "Repair one, postpone two", impact: { social: -2, environment: 4, economy: -2 } },
+      { label: "Host group mending night", impact: { social: 8, environment: 10, economy: 5 } },
+    ],
+  },
+  {
+    category: "Waste Recycling",
+    title: "Online Return Hassle",
+    prompt: "A low-quality online order arrived, and return shipping is inconvenient.",
+    choices: [
+      { label: "Keep it and buy better one too", impact: { social: 1, environment: -13, economy: -13 } },
+      { label: "Return it despite the effort", impact: { social: -2, environment: 7, economy: 4 } },
+      { label: "Upcycle the item at home", impact: { social: -1, environment: 9, economy: 6 } },
+    ],
+  },
+  {
+    category: "Design",
+    title: "Climate Rally",
+    prompt: "You are invited to speak at a local climate event.",
+    choices: [
+      { label: "Buy new statement outfit", impact: { social: 10, environment: -12, economy: -12 } },
+      { label: "Rewear old outfit confidently", impact: { social: 4, environment: 10, economy: 8 } },
+      { label: "Wear thrifted + share story", impact: { social: 8, environment: 11, economy: 5 } },
+    ],
+  },
+  {
+    category: "Repurposing Clothes",
+    title: "End-of-Month Budget Crunch",
+    prompt: "You still need a reliable outfit for daily work but funds are very low.",
+    choices: [
+      { label: "Use credit to buy new set", impact: { social: 6, environment: -11, economy: -18 } },
+      { label: "Repeat wardrobe and accessorize", impact: { social: -3, environment: 7, economy: 8 } },
+      { label: "Clothing swap + minor repair", impact: { social: 6, environment: 9, economy: 6 } },
     ],
   },
 ];
@@ -98,9 +280,9 @@ export function DaysChallenge() {
 
   const applyChoice = (choice: Choice) => {
     const nextStats: Record<StatKey, number> = {
-      social: Math.max(0, Math.min(100, stats.social + choice.impact.social)),
-      environment: Math.max(0, Math.min(100, stats.environment + choice.impact.environment)),
-      economy: Math.max(0, Math.min(100, stats.economy + choice.impact.economy)),
+      social: Math.max(0, Math.min(100, stats.social + choice.impact.social - PASSIVE_DRAIN)),
+      environment: Math.max(0, Math.min(100, stats.environment + choice.impact.environment - PASSIVE_DRAIN)),
+      economy: Math.max(0, Math.min(100, stats.economy + choice.impact.economy - PASSIVE_DRAIN)),
     };
 
     if (nextStats.social === 0 || nextStats.environment === 0 || nextStats.economy === 0) {
@@ -120,7 +302,7 @@ export function DaysChallenge() {
         <h1 className="text-5xl text-white mb-3">Days Challenge 🎮</h1>
         <p className="text-gray-400 text-lg max-w-3xl">
           Survive as many days as possible by balancing social life, environment, and economy.
-          Your rank here is based on number of days survived.
+          Hard mode uses a 20-question event pool and your rank is based on number of days survived.
         </p>
       </div>
 
@@ -151,7 +333,10 @@ export function DaysChallenge() {
                   <CalendarDays className="w-4 h-4 text-cyan-400" />
                   Day {day}
                 </div>
-                <div className="text-sm text-gray-400">{currentEvent.title}</div>
+                <div className="text-right">
+                  <div className="text-sm text-gray-400">{currentEvent.title}</div>
+                  <div className="text-xs text-[#bef264]">{currentEvent.category}</div>
+                </div>
               </div>
 
               <div className="bg-[#0f172a] border border-gray-800 rounded-2xl p-5">
