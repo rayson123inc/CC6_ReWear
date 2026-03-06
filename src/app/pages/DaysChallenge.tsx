@@ -249,6 +249,7 @@ export function DaysChallenge() {
   const [gameOver, setGameOver] = useState(false);
   const [lastRunDays, setLastRunDays] = useState(0);
   const [eventIndex, setEventIndex] = useState(0);
+  const [currentChoices, setCurrentChoices] = useState<Choice[]>([]);
 
   const currentEvent = EVENTS[eventIndex];
   const survivalTitle =
@@ -264,11 +265,13 @@ export function DaysChallenge() {
   }, [bestDays, lastRunDays]);
 
   const startGame = () => {
+    const firstEvent = EVENTS[0];
     setInGame(true);
     setGameOver(false);
     setDay(1);
     setStats(STARTING_STATS);
     setEventIndex(0);
+    setCurrentChoices(shuffleChoices(firstEvent.choices));
   };
 
   const endGame = (survivedDays: number) => {
@@ -291,9 +294,20 @@ export function DaysChallenge() {
     }
 
     const nextDay = day + 1;
+    const nextEventIndex = (eventIndex + 1) % EVENTS.length;
     setStats(nextStats);
     setDay(nextDay);
-    setEventIndex((prev) => (prev + 1) % EVENTS.length);
+    setEventIndex(nextEventIndex);
+    setCurrentChoices(shuffleChoices(EVENTS[nextEventIndex].choices));
+  };
+
+  const shuffleChoices = (choices: Choice[]) => {
+    const shuffled = [...choices];
+    for (let i = shuffled.length - 1; i > 0; i -= 1) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
   };
 
   return (
@@ -342,7 +356,7 @@ export function DaysChallenge() {
               <div className="bg-[#0f172a] border border-gray-800 rounded-2xl p-5">
                 <div className="text-xl text-white mb-4">{currentEvent.prompt}</div>
                 <div className="space-y-3">
-                  {currentEvent.choices.map((choice, index) => (
+                  {currentChoices.map((choice, index) => (
                     <button
                       key={index}
                       onClick={() => applyChoice(choice)}
