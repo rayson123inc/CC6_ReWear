@@ -1,8 +1,10 @@
+import { useState } from "react";
 import { Gift, Ticket, Sparkles } from "lucide-react";
 import { useApp } from "../contexts/AppContext";
 
 export function Redeem() {
-  const { totalXP } = useApp();
+  const { totalXP, redeemXP } = useApp();
+  const [redeemedReward, setRedeemedReward] = useState<{ name: string; code: string } | null>(null);
 
   const rewards = [
     { name: "5% Thrift Store Voucher", cost: 150, type: "Voucher" },
@@ -22,6 +24,30 @@ export function Redeem() {
     { name: "Streak Shield (1 day)", cost: 600, type: "Power-up" },
     { name: "Challenge Skip Token", cost: 1450, type: "Power-up" },
   ];
+
+  const generateRedeemCode = () => {
+    const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+    let code = "RW-";
+    for (let i = 0; i < 8; i++) {
+      code += chars[Math.floor(Math.random() * chars.length)];
+      if (i === 3) {
+        code += "-";
+      }
+    }
+    return code;
+  };
+
+  const handleRedeem = (rewardName: string, rewardCost: number) => {
+    const redeemed = redeemXP(rewardCost);
+    if (!redeemed) {
+      return;
+    }
+
+    setRedeemedReward({
+      name: rewardName,
+      code: generateRedeemCode(),
+    });
+  };
 
   return (
     <div className="space-y-6">
@@ -61,6 +87,7 @@ export function Redeem() {
                 </div>
                 <button
                   disabled={!canRedeem}
+                  onClick={() => handleRedeem(reward.name, reward.cost)}
                   className={`px-5 py-2 rounded-full text-sm transition-colors ${
                     canRedeem
                       ? "bg-[#bef264] text-black hover:bg-[#a8d957]"
@@ -74,6 +101,27 @@ export function Redeem() {
           );
         })}
       </div>
+
+      {redeemedReward && (
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+          <div className="bg-[#1e293b] rounded-3xl max-w-md w-full p-8 border border-gray-800">
+            <h2 className="text-3xl text-white mb-3">Redeemed Successfully</h2>
+            <p className="text-gray-300 mb-2">{redeemedReward.name}</p>
+            <p className="text-sm text-gray-400 mb-6">Use this redemption code:</p>
+
+            <div className="bg-[#0f172a] border border-gray-700 rounded-xl p-4 mb-6 text-center">
+              <span className="text-2xl text-[#bef264] tracking-wider">{redeemedReward.code}</span>
+            </div>
+
+            <button
+              onClick={() => setRedeemedReward(null)}
+              className="w-full bg-[#bef264] text-black py-3 rounded-full hover:bg-[#a8d957] transition-colors"
+            >
+              Done
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

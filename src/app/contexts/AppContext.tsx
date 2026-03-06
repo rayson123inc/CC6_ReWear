@@ -34,6 +34,7 @@ interface AppContextType {
   level: number;
   user: { name: string; email?: string } | null;
   addAction: (action: Omit<Action, "id" | "date">) => void;
+  redeemXP: (amount: number) => boolean;
   joinChallenge: (challengeId: string) => void;
   getChallengeProgress: (challengeId: string) => number;
   login: (name: string, email?: string) => void;
@@ -44,6 +45,7 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export function AppProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<{ name: string; email?: string } | null>(null);
+  const [spentXP, setSpentXP] = useState(0);
   
   const [actions, setActions] = useState<Action[]>([
     {
@@ -157,10 +159,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
     },
   ]);
 
-  const totalXP = actions.reduce((sum, action) => sum + action.xpEarned, 0);
+  const earnedXP = actions.reduce((sum, action) => sum + action.xpEarned, 0);
+  const totalXP = Math.max(earnedXP - spentXP, 0);
   const totalCO2Saved = actions.reduce((sum, action) => sum + action.co2Saved, 0);
   const streak = 14; // Simplified for now
-  const level = Math.floor(totalXP / 200) + 1;
+  const level = Math.floor(earnedXP / 200) + 1;
 
   const addAction = (actionData: Omit<Action, "id" | "date">) => {
     const newAction: Action = {
@@ -224,6 +227,14 @@ export function AppProvider({ children }: { children: ReactNode }) {
     );
   };
 
+  const redeemXP = (amount: number) => {
+    if (amount <= 0 || totalXP < amount) {
+      return false;
+    }
+    setSpentXP((prev) => prev + amount);
+    return true;
+  };
+
   const getChallengeProgress = (challengeId: string) => {
     const challenge = challenges.find((c) => c.id === challengeId);
     return challenge
@@ -250,6 +261,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         level,
         user,
         addAction,
+        redeemXP,
         joinChallenge,
         getChallengeProgress,
         login,
