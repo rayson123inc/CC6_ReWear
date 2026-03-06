@@ -26,11 +26,25 @@ export function LogActionModal({ isOpen, onClose }: LogActionModalProps) {
     e.preventDefault();
     
     const selectedType = actionTypes.find((type) => type.value === actionType);
-    if (!selectedType || !itemName) return;
+    const trimmedItemName = itemName.trim();
+    if (!selectedType || !trimmedItemName) return;
+
+    const actionDescriptionByType: Record<string, string> = {
+      thrift: "thrifted",
+      swap: "swapped",
+      repair: "repaired",
+      borrow: "borrowed",
+      upcycle: "upcycled",
+      rent: "rented",
+    };
+    const actionDescription = actionDescriptionByType[actionType];
+    const actionName = actionDescription
+      ? `${trimmedItemName} (${actionDescription})`
+      : trimmedItemName;
 
     addAction({
       type: actionType,
-      name: itemName,
+      name: actionName,
       icon: selectedType.icon,
       co2Saved: selectedType.co2,
       xpEarned: selectedType.xp,
