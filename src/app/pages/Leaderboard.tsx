@@ -46,6 +46,9 @@ export function Leaderboard() {
       <h1 className="text-5xl text-white mb-8">
         Leaderboard 🏆
       </h1>
+      <p className="text-gray-400 -mt-4 mb-2">
+        Rankings are based on total XP earned (lifetime), not spendable XP.
+      </p>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Global Leaderboard */}
@@ -81,7 +84,7 @@ export function Leaderboard() {
                     <div className="text-xs text-gray-400">{player.level}</div>
                   </div>
                 </div>
-                <span className="text-[#bef264]">{player.xp} XP</span>
+                <span className="text-[#bef264]">{player.xp} Total XP</span>
               </div>
             ))}
           </div>
@@ -120,7 +123,7 @@ export function Leaderboard() {
                     <div className="text-xs text-gray-400">{player.level}</div>
                   </div>
                 </div>
-                <span className="text-[#bef264]">{player.xp} XP</span>
+                <span className="text-[#bef264]">{player.xp} Total XP</span>
               </div>
             ))}
           </div>
