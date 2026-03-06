@@ -36,7 +36,7 @@ export function Layout() {
     <div className="min-h-screen bg-[#0f1419]">
       <nav className="border-b border-gray-800">
         <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between gap-3">
             <Link to="/" className="flex items-center gap-2">
               <span className="text-xl">
                 <span className="text-white">Re</span>
@@ -45,12 +45,12 @@ export function Layout() {
               <Sprout className="w-5 h-5 text-[#bef264]" />
             </Link>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1">
               {navItems.map((item) => (
                 <Link
                   key={item.path}
                   to={item.path}
-                  className={`px-6 py-2 rounded-full transition-colors ${
+                  className={`px-3 py-1.5 rounded-full transition-colors whitespace-nowrap text-xs ${
                     isActive(item.path)
                       ? "bg-[#bef264] text-black"
                       : "text-gray-400 hover:text-white"
@@ -61,16 +61,16 @@ export function Layout() {
               ))}
             </div>
 
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
               <button
                 onClick={() => setIsLogModalOpen(true)}
-                className="flex items-center gap-2 px-4 py-2 bg-[#bef264] text-black rounded-full hover:bg-[#a8d957] transition-colors"
+                className="flex items-center gap-2 px-3 py-1.5 bg-[#bef264] text-black rounded-full hover:bg-[#a8d957] transition-colors text-xs"
               >
                 <Plus className="w-4 h-4" />
                 Log Action
               </button>
               
-              <div className="flex items-center gap-2 text-sm">
+              <div className="flex items-center gap-2 text-xs">
                 <div className="w-2 h-2 rounded-full bg-purple-500"></div>
                 <span className="text-gray-300">{totalXP} XP</span>
                 <span className="text-gray-500">·</span>
@@ -81,7 +81,7 @@ export function Layout() {
               <div className="relative">
                 <button
                   onClick={() => setShowUserMenu(!showUserMenu)}
-                  className="flex items-center gap-2 px-4 py-2 bg-[#1e293b] rounded-full border border-gray-800 hover:border-gray-700 transition-colors"
+                  className="flex items-center gap-2 px-3 py-1.5 bg-[#1e293b] rounded-full border border-gray-800 hover:border-gray-700 transition-colors text-xs"
                 >
                   <UserIcon className="w-4 h-4 text-gray-400" />
                   <span className="text-white">{user?.name}</span>
