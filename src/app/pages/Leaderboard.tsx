@@ -14,7 +14,7 @@ export function Leaderboard() {
     { rank: 7, name: "Riley Park", xp: 1980, icon: "🌸", level: "Level 8" },
     { rank: 8, name: "Casey Brown", xp: 1650, icon: "🌊", level: "Level 7" },
     { rank: 9, name: "Morgan Davis", xp: 1420, icon: "🍃", level: "Level 7" },
-    { rank: 27, name: "You", xp: 760, icon: "⚡", level: `Level ${level}` },
+    { rank: 27, name: "You", xp: 220, icon: "⚡", level: `Level ${level}` },
   ];
 
   const friendLeaders = [
