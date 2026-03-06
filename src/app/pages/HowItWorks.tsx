@@ -41,6 +41,12 @@ export function HowItWorks() {
       description:
         "Compare your progress on the leaderboard and inspire each other to make sustainable choices.",
     },
+    {
+      icon: <Shirt className="w-8 h-8 text-amber-400" />,
+      title: "Become a ReWear Warrior",
+      description:
+        "Stay consistent with your eco actions to unlock warrior status, bonus rewards, and community recognition for your impact.",
+    },
   ];
 
   const actions = [
