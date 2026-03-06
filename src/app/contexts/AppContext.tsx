@@ -5,6 +5,7 @@ export interface Action {
   type: string;
   name: string;
   icon: string;
+  imageUrl?: string;
   co2Saved: number;
   xpEarned: number;
   date: Date;

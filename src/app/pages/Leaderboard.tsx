@@ -2,7 +2,8 @@ import { Trophy, Medal, Award } from "lucide-react";
 import { useApp } from "../contexts/AppContext";
 
 export function Leaderboard() {
-  const { totalXP, totalCO2Saved, streak, actions, challenges, level } = useApp();
+  const { totalCO2Saved, streak, actions, challenges, level } = useApp();
+  const lifetimeXP = actions.reduce((sum, action) => sum + action.xpEarned, 0);
 
   const globalLeaders = [
     { rank: 1, name: "Sarah Chen", xp: 4580, icon: "🌟", level: "Level 12" },
@@ -14,7 +15,7 @@ export function Leaderboard() {
     { rank: 7, name: "Riley Park", xp: 1980, icon: "🌸", level: "Level 8" },
     { rank: 8, name: "Casey Brown", xp: 1650, icon: "🌊", level: "Level 7" },
     { rank: 9, name: "Morgan Davis", xp: 1420, icon: "🍃", level: "Level 7" },
-    { rank: 27, name: "You", xp: 220, icon: "⚡", level: `Level ${level}` },
+    { rank: 27, name: "You", xp: lifetimeXP, icon: "⚡", level: `Level ${level}` },
   ];
 
   const friendLeaders = [
@@ -22,7 +23,7 @@ export function Leaderboard() {
     { rank: 2, name: "Jade R.", xp: 2210, icon: "🏠", level: "Level 8" },
     { rank: 3, name: "Taylor Swift", xp: 980, icon: "🎵", level: "Level 6" },
     { rank: 4, name: "Chris Evans", xp: 650, icon: "🛡️", level: "Level 5" },
-    { rank: 5, name: "You", xp: totalXP, icon: "⚡", level: `Level ${level}` },
+    { rank: 5, name: "You", xp: lifetimeXP, icon: "⚡", level: `Level ${level}` },
   ];
 
   const getRankBadge = (rank: number) => {

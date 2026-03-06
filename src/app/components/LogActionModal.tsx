@@ -11,6 +11,7 @@ export function LogActionModal({ isOpen, onClose }: LogActionModalProps) {
   const { addAction, challenges } = useApp();
   const [actionType, setActionType] = useState("");
   const [itemName, setItemName] = useState("");
+  const [itemImageUrl, setItemImageUrl] = useState<string | undefined>(undefined);
   const [selectedChallenge, setSelectedChallenge] = useState("");
 
   const actionTypes = [
@@ -27,7 +28,7 @@ export function LogActionModal({ isOpen, onClose }: LogActionModalProps) {
     
     const selectedType = actionTypes.find((type) => type.value === actionType);
     const trimmedItemName = itemName.trim();
-    if (!selectedType || !trimmedItemName) return;
+    if (!selectedType || !trimmedItemName || !itemImageUrl) return;
 
     const actionDescriptionByType: Record<string, string> = {
       thrift: "thrifted",
@@ -46,6 +47,7 @@ export function LogActionModal({ isOpen, onClose }: LogActionModalProps) {
       type: actionType,
       name: actionName,
       icon: selectedType.icon,
+      imageUrl: itemImageUrl,
       co2Saved: selectedType.co2,
       xpEarned: selectedType.xp,
       challengeId: selectedChallenge || undefined,
@@ -54,8 +56,25 @@ export function LogActionModal({ isOpen, onClose }: LogActionModalProps) {
     // Reset form
     setActionType("");
     setItemName("");
+    setItemImageUrl(undefined);
     setSelectedChallenge("");
     onClose();
+  };
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) {
+      setItemImageUrl(undefined);
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (typeof reader.result === "string") {
+        setItemImageUrl(reader.result);
+      }
+    };
+    reader.readAsDataURL(file);
   };
 
   if (!isOpen) return null;
@@ -107,6 +126,26 @@ export function LogActionModal({ isOpen, onClose }: LogActionModalProps) {
               className="w-full bg-[#0f172a] border border-gray-800 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-[#bef264]"
               required
             />
+          </div>
+
+          <div>
+            <label className="block text-sm text-gray-400 mb-2">
+              Item Photo
+            </label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImageUpload}
+              className="w-full bg-[#0f172a] border border-gray-800 rounded-xl px-4 py-3 text-white file:mr-4 file:rounded-full file:border-0 file:bg-[#bef264] file:px-4 file:py-2 file:text-black hover:file:bg-[#a8d957]"
+              required
+            />
+            {itemImageUrl && (
+              <img
+                src={itemImageUrl}
+                alt="Item preview"
+                className="mt-3 w-24 h-24 rounded-xl object-cover border border-gray-700"
+              />
+            )}
           </div>
 
           {joinedChallenges.length > 0 && (

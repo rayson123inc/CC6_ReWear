@@ -166,7 +166,15 @@ export function Dashboard() {
                 <div key={action.id}>
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-3">
-                      <span className="text-2xl">{action.icon}</span>
+                      {action.imageUrl ? (
+                        <img
+                          src={action.imageUrl}
+                          alt={action.name}
+                          className="w-10 h-10 rounded-lg object-cover border border-gray-700"
+                        />
+                      ) : (
+                        <span className="text-2xl">{action.icon}</span>
+                      )}
                       <span className="text-white">{action.name}</span>
                     </div>
                     <span className="text-cyan-400">
