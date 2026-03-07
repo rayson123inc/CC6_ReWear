@@ -15,7 +15,7 @@ export function Redeem() {
     { name: "Virtual Styling Session", cost: 750, type: "Experience" },
     { name: "Swap Event VIP Access", cost: 950, type: "Experience" },
     { name: "Sustainable Tote Bag", cost: 700, type: "Merch" },
-    { name: "ReWear Enamel Pin Set", cost: 520, type: "Merch" },
+    { name: "Better Dressed Movement Enamel Pin Set", cost: 520, type: "Merch" },
     { name: "Eco Water Bottle", cost: 820, type: "Merch" },
     { name: "Limited Hoodie", cost: 1300, type: "Merch" },
     { name: "Reusable Laundry Bag Kit", cost: 980, type: "Merch" },

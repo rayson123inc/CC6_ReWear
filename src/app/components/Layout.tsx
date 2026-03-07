@@ -34,14 +34,13 @@ export function Layout() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0f1419]">
+    <div className="min-h-screen bg-[#0f1419] flex flex-col">
       <nav className="border-b border-gray-800">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between gap-3">
             <Link to="/" className="flex items-center gap-2">
-              <span className="text-xl">
-                <span className="text-white">Re</span>
-                <span className="text-[#bef264]">Wear</span>
+              <span className="text-sm md:text-base text-white font-medium">
+                Better Dressed Movement
               </span>
               <Sprout className="w-5 h-5 text-[#bef264]" />
             </Link>
@@ -105,9 +104,28 @@ export function Layout() {
         </div>
       </nav>
 
-      <main className="max-w-7xl mx-auto px-6 py-8">
+      <main className="max-w-7xl w-full mx-auto px-6 py-8 flex-1">
         <Outlet />
       </main>
+
+      <footer className="border-t border-gray-800">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex flex-col gap-3 text-xs text-gray-400 md:flex-row md:items-center md:justify-between">
+          <div className="flex items-center gap-2">
+            <span className="text-[#bef264] font-semibold">Better Dressed Movement</span>
+            <Sprout className="w-4 h-4 text-[#bef264]" />
+          </div>
+
+          <p className="text-gray-500">
+            Made with <span className="text-[#bef264]">💚</span> for the planet · © 2026 Better Dressed Movement
+          </p>
+
+          <div className="flex items-center gap-4">
+            <button type="button" className="hover:text-white transition-colors">Privacy</button>
+            <button type="button" className="hover:text-white transition-colors">Terms</button>
+            <button type="button" className="hover:text-white transition-colors">Contact</button>
+          </div>
+        </div>
+      </footer>
 
       <LogActionModal
         isOpen={isLogModalOpen}

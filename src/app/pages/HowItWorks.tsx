@@ -43,7 +43,7 @@ export function HowItWorks() {
     },
     {
       icon: <Shirt className="w-8 h-8 text-amber-400" />,
-      title: "Become a ReWear Warrior",
+      title: "Become a Better Dressed Movement Warrior",
       description:
         "Stay consistent with your eco actions to unlock warrior status, bonus rewards, and community recognition for your impact.",
     },
@@ -99,7 +99,7 @@ export function HowItWorks() {
       <div>
         <h1 className="text-5xl text-white mb-4">How It Works 📚</h1>
         <p className="text-xl text-gray-400 max-w-3xl">
-          ReWear gamifies sustainable fashion choices by rewarding you for
+          Better Dressed Movement gamifies sustainable fashion choices by rewarding you for
           reducing textile waste and helping the planet.
         </p>
       </div>

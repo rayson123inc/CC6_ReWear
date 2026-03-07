@@ -33,10 +33,7 @@ export function Login() {
         {/* Logo */}
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-2 mb-4">
-            <span className="text-4xl">
-              <span className="text-white">Re</span>
-              <span className="text-[#bef264]">Wear</span>
-            </span>
+            <span className="text-2xl text-white font-medium">Better Dressed Movement</span>
             <Sprout className="w-8 h-8 text-[#bef264]" />
           </div>
           <p className="text-gray-400">
