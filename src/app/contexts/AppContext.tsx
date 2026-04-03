@@ -19,6 +19,7 @@ export interface Challenge {
   description: string;
   totalSteps: number;
   currentProgress: number;
+  progressUnit: string;
   xp: number;
   gradient: string;
   daysLeft: string;
@@ -83,10 +84,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
     {
       id: "nobuy",
       icon: "ShoppingBag",
-      title: "No-Buy November",
-      description: "Go 30 days without buying any new fast fashion. Thrift, swap, or borrow instead.",
-      totalSteps: 30,
-      currentProgress: 14,
+      title: "Trendy Thrifter",
+      description: "Own thrifted clothes? Show us how you wear the same clothes in different ways. Post your photos on social media and tag us!",
+      totalSteps: 4,
+      currentProgress: 2,
+      progressUnit: "posts",
       xp: 200,
       gradient: "from-[#22d3ee] via-[#3b82f6] to-[#8b5cf6]",
       daysLeft: "16 days left",
@@ -96,10 +98,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
     {
       id: "capsule",
       icon: "Shirt",
-      title: "Capsule Closet",
-      description: "Build a 10-item capsule wardrobe and wear only those pieces for a week.",
+      title: "Recycling Hero",
+      description: "Outgrew your clothes? Bring unwanted items to a partner store and drop it off at designated recycling bins!",
       totalSteps: 10,
       currentProgress: 3,
+      progressUnit: "items",
       xp: 150,
       gradient: "from-[#ec4899] via-[#f97316] to-[#fbbf24]",
       daysLeft: "5 days left",
@@ -110,9 +113,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
       id: "swap5",
       icon: "Repeat2",
       title: "Swap 5 Items",
-      description: "Swap clothes with 5 different people. Post your swaps to inspire others!",
+      description: "Want to try a different style? Trade in a piece of clothing in exchange for another with our partner stores!",
       totalSteps: 5,
       currentProgress: 2,
+      progressUnit: "completed",
       xp: 120,
       gradient: "from-[#8b5cf6] via-[#3b82f6] to-[#22d3ee]",
       daysLeft: "12 days left",
@@ -123,9 +127,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
       id: "repair",
       icon: "Wrench",
       title: "Mend & Repair Week",
-      description: "Fix instead of toss. Repair at least 3 damaged items in your wardrobe.",
+      description: "Fix instead of toss. Learn how to fix your damaged clothes at a mending workshop!",
       totalSteps: 3,
       currentProgress: 0,
+      progressUnit: "completed",
       xp: 80,
       gradient: "from-[#22d3ee] via-[#3b82f6] to-[#8b5cf6]",
       daysLeft: "7 days left",
@@ -135,10 +140,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
     {
       id: "thriftflip",
       icon: "Camera",
-      title: "#ThriftFlip Selfie",
-      description: "Share a before & after of your thrift flip transformation. Tag 3 friends!",
+      title: "Wear and Rewear",
+      description: "Rewear the same item when you enter our partner stores! Say cheese and take a photo as proof!",
       totalSteps: 1,
       currentProgress: 0,
+      progressUnit: "completed",
       xp: 60,
       gradient: "from-[#ec4899] via-[#f97316] to-[#fbbf24]",
       daysLeft: "Ongoing",
@@ -148,10 +154,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
     {
       id: "zerowaste",
       icon: "ShoppingBasket",
-      title: "Zero Waste Winter",
-      description: "Don't buy any new clothing items for the entire winter season. Hardcore mode!",
-      totalSteps: 90,
+      title: "Sustainable Shopper",
+      description: "Shop Sustainably! Buy second-hand pieces from our partner stores.",
+      totalSteps: 5,
       currentProgress: 0,
+      progressUnit: "items",
       xp: 250,
       gradient: "from-[#8b5cf6] via-[#3b82f6] to-[#22d3ee]",
       daysLeft: "Starts soon",
